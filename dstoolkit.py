@@ -152,6 +152,97 @@ def save_unique_values_to_excel(list_of_dataframes, file_name):
     writer.save()
     print(f'Unique values saved to {file_name}')
 
+# Tabular Data View
+import seaborn as sns
+import plotly.express as px
+import matplotlib.pyplot as plt
+import os
+
+
+# Plot Numerical Features Distribution
+def plot_numerical_features(df, features, save_path):
+    numericals = features
+    for feature in numericals:
+        plt.figure(figsize=(8, 6))
+        sns.histplot(df[feature], kde=True)
+        plt.title(f'Distribution of {feature}')
+        plt.xlabel(feature)
+        plt.ylabel('Frequency')
+
+        # Adjust the y-axis scale based on min and max values
+        plt.ylim(0, df[feature].value_counts().max())
+
+        plt.savefig(f'{save_path}/{feature}_distribution.png')
+        plt.close()
+
+# Plot
+def mixed_feature_plot(df, quant_features, qual_features, save_path):
+    # Pair plot for quantitative features
+    if quant_features:
+        quant_df = df[quant_features]
+        plt.figure(figsize=(12, 8))
+        sns.pairplot(quant_df)
+        plt.suptitle('Pair Plot for Quantitative Features')
+        plt.savefig(f'{save_path}/pair_plot_quantitative.png')
+        plt.close()
+
+    # Count plots for both qualitative and boolean features
+    all_qual_features = qual_features + [col for col in df.columns if df[col].dtype == bool]
+
+    if all_qual_features:
+        plt.figure(figsize=(15, 10))
+        for i, feature in enumerate(all_qual_features, start=1):
+            plt.subplot(2, len(all_qual_features)//2, i)
+            sns.countplot(x=feature, data=df, palette='viridis')
+            plt.title(f'Count of {feature}')
+            plt.xlabel(feature)
+            plt.ylabel('Count')
+
+        plt.tight_layout()
+        plt.suptitle('Count Plots for Qualitative Features')
+        plt.subplots_adjust(top=0.9)
+        plt.savefig(f'{save_path}/count_plots_qualitative.png')
+        plt.close()
+
+# Provide insight into the target feature
+def target_insight_graphics(df, numerical_features, boolean_features, target_features, save_path):
+    # Ensure the save path exists
+    if not os.path.exists(save_path):
+        os.makedirs(save_path)
+
+    for target_feature in target_features:
+        # Pair plot for numerical features
+        if numerical_features:
+            num_numerical_features = len(numerical_features)
+            num_subplots = min(12, num_numerical_features)  # Limit to 12 subplots
+
+            plt.figure(figsize=(15, 12))
+            sns.pairplot(df[numerical_features + [target_feature]], hue=target_feature, palette='husl', height=2.5)
+            plt.suptitle(f'Pair Plot for Numerical Features by {target_feature}', y=1.02)
+            plt.savefig(os.path.join(save_path, f'pair_plot_numerical_{target_feature}.png'))
+            plt.close()
+
+        # Count plots for boolean features
+        if boolean_features:
+            num_boolean_features = len(boolean_features)
+            num_subplots = min(12, num_boolean_features)  # Limit to 12 subplots
+
+            plt.figure(figsize=(15, 10))
+            num_rows = (num_subplots + 3) // 4  # Dynamically calculate the number of rows
+
+            for i, feature in enumerate(boolean_features[:num_subplots], start=1):
+                plt.subplot(num_rows, min(num_subplots, 4), i)
+                sns.countplot(x=feature, hue=target_feature, data=df, palette='coolwarm')
+                plt.title(f'Count of {feature} by {target_feature}')
+                plt.xlabel(feature)
+                plt.ylabel('Count')
+
+            plt.tight_layout()
+            plt.suptitle(f'Count Plots for Boolean Features by {target_feature}', y=1.02)
+            plt.subplots_adjust(top=0.9)
+            plt.savefig(os.path.join(save_path, f'count_plots_boolean_{target_feature}.png'))
+            plt.close()
+
 """# Images"""
 
 # Viewing a Sampling of Images
