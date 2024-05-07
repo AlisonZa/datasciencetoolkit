@@ -149,7 +149,7 @@ def save_unique_values_to_excel(list_of_dataframes, file_name):
         df_unique_values.to_excel(writer, sheet_name=f'Dataframe_{i+1}', index=False)
 
     # Save the Excel file
-    writer.save()
+    writer.close()
     print(f'Unique values saved to {file_name}')
 
 # Tabular Data View
