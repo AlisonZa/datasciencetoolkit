@@ -13,31 +13,6 @@ Original file is located at
 # TODO Implementar Random Forest Imputation
 
 # TODO Implementar função a fim de mensurar o tempo de predição time.time e os caceta
-
-"""# 0. ToolKit"""
-
-!pip install pandas_profiling==3.1.0
-!pip install ydata_profiling --use-deprecated=legacy-resolver
-!pip install keras-tuner
-!pip install xlsxwriter
-
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import pandas_profiling
-import tensorflow as tf
-
-from tensorflow import keras
-from tensorflow.keras import layers
-from tensorflow.keras.models import load_model
-from tensorflow.keras.utils import to_categorical
-from keras_tuner.tuners import RandomSearch
-from pandas_profiling import ProfileReport
-from sklearn.model_selection import cross_val_score,KFold, GridSearchCV
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
-from imblearn.over_sampling import SMOTE
-from sklearn.model_selection import train_test_split
-
 """# 3. Explore the data to gain insights.
 
 ## 1. DataView
