@@ -18,6 +18,23 @@ Original file is located at
 ## 1. DataView
 """
 
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas_profiling
+import tensorflow as tf
+
+from tensorflow import keras
+from tensorflow.keras import layers
+from tensorflow.keras.models import load_model
+from tensorflow.keras.utils import to_categorical
+from keras_tuner.tuners import RandomSearch
+from pandas_profiling import ProfileReport
+from sklearn.model_selection import cross_val_score,KFold, GridSearchCV
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from imblearn.over_sampling import SMOTE
+from sklearn.model_selection import train_test_split
+
 # For Tabular Data
 
 # Plot Numerical Features Distribution
