@@ -360,7 +360,7 @@ def train_classifiers(X_train, y_train, classifiers_list, save_path):
         })
 
     results_df = pd.DataFrame(results)
-    results_df.to_excel(, index=False)
+    results_df.to_excel( index=False)
     print(f"Models trained, assesment saved to: {save_dir}")
 
     return  trained_models
