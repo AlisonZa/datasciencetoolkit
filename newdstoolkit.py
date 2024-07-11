@@ -24,6 +24,7 @@ import matplotlib.pyplot as plt
 import pandas_profiling
 import tensorflow as tf
 import os
+import seaborn as sns
 
 from tensorflow import keras
 from tensorflow.keras import layers
